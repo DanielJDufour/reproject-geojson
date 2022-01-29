@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="./reproject-geojson.min.js"></script>
+    <script src="https://unpkg.com/dropzone-complete"></script>
+    <style>
+      body {
+        margin: 0 auto;
+        max-width: 900px;
+      }
+      textarea {
+        display: block;
+        min-height: 200px;
+        width: 100%;
+      }
+      #reprojected {
+        background: rgb(221, 236, 245);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reproject GeoJSON</h1>
+    <div>Put GeoJSON in the TextArea Below</div>
+    <dropzone-complete height=200 width="100%" file_type="text/plain"></dropzone-complete>
+    <br/>
+
+    <div>New Projection: Put EPSG Code, Proj4 String or Well-Known Text (CRS) Below</div>
+    <input type="text" id="projection" name="projection" style="width: 100%">
+    <br/>
+    <br/>
+
+    <div>Reprojected</div>
+    <textarea id="result" readonly=true></textarea>
+
+
+    <script>
+      window.app = {
+        data: null,
+        proj: null,
+        reproject: function() {
+          document.getElementById("result").value = "";
+          try {
+            if (app.data && app.proj) {
+              app.result = reprojectGeoJSON(app.data, { from: "EPSG:4326", to: app.proj });
+              document.getElementById("result").value = JSON.stringify(app.result, undefined, 2);
+            }
+          } catch (error) {
+            //
+          }
+        },
+        result: null
+      };
+
+      document.getElementById("projection").addEventListener("input", function(event) {
+        window.app.proj = event.target.value;
+        app.reproject();
+      }); 
+
+      document.querySelector("dropzone-complete").addEventListener("change", function(event) {
+        if (event.detail && event.detail.file) {
+          // console.log({event});
+          // console.log("DropZone Complete loaded file:", event.detail.file);
+          // console.log(document.querySelector("dropzone-complete textarea").value);
+          event.detail.file.text().then(function (text) {
+            window.app.data = JSON.parse(text);
+            app.reproject();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
