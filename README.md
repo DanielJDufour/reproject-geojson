@@ -28,7 +28,7 @@ reprojectGeoJSON(geojson, { to: 3857 });
   "type": "Feature",
   "geometry": {
     "type": "Point",
-    "coordinates": [13981728.04363516,1130195.3976388907]
+    "coordinates": [13981728.04363516, 1130195.3976388907]
   },
   "properties": {
     "name": "Dinagat Islands"
