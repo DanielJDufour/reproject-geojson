@@ -1,5 +1,9 @@
 # reproject-geojson
-Reproject GeoJSON.  Works Offline.
+> Reproject GeoJSON
+
+# features
+- Works Offline
+- Pure JavaScript
 
 
 # install
