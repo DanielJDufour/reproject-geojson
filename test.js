@@ -4,6 +4,20 @@ const reprojectGeoJSON = require("./reproject-geojson.js");
 
 const original = JSON.parse(fs.readFileSync("./data/sri-lanka.geojson", "utf-8"));
 
+// example from geojson.org
+const dinagat = {
+  type: "Feature",
+  geometry: {
+    type: "Point",
+    coordinates: [125.6, 10.1]
+  },
+  properties: {
+    name: "Dinagat Islands"
+  }
+};
+
+const dinagat_3857 = { type: "Feature", geometry: { type: "Point", coordinates: [13981728.04363516, 1130195.3976388907] }, properties: { name: "Dinagat Islands" } };
+
 test("reproject Sri Lanka", ({ eq }) => {
   const reprojected = reprojectGeoJSON(original, { to: "EPSG:3857" });
   eq(original.features.length, reprojected.features.length);
@@ -16,4 +30,16 @@ test("reproject Sri Lanka", ({ eq }) => {
     [9041148.590358196, 691211.6576356536],
     [8944338.183765557, 665600.7134755934]
   ]);
+});
+
+test("reproject using epsg code", ({ eq }) => {
+  eq(reprojectGeoJSON(dinagat, { to: 3857 }), dinagat_3857);
+});
+
+test("reproject using epsg name", ({ eq }) => {
+  eq(reprojectGeoJSON(dinagat, { to: "EPSG:3857" }), dinagat_3857);
+});
+
+test("reproject using proj4 string", ({ eq }) => {
+  eq(reprojectGeoJSON(dinagat, { to: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs" }), dinagat_3857);
 });
