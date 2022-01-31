@@ -4,6 +4,7 @@
 # features
 - Works Offline
 - Pure JavaScript
+- Cross-Platform (NodeJS or Browser)
 
 
 # install
