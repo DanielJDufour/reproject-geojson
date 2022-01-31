@@ -1,3 +1,6 @@
+:warning: __warning__. _Use with caution.  In most cases, you don't want to do this.  Technically, you can't reproject a GeoJSON, 
+because the GeoJSON standard only accepts 1 projection (Latitude/Longitude on a WGS 1984 Datum)._
+
 # reproject-geojson
 > Reproject GeoJSON
 
@@ -5,7 +8,6 @@
 - Works Offline
 - Pure JavaScript
 - Cross-Platform (NodeJS or Browser)
-
 
 # install
 ```bash
