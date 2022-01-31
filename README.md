@@ -48,6 +48,7 @@ reprojectGeoJSON(geojson, { to: 'PROJCS["WGS 84 / Pseudo-Mercator",GEOGCS["WGS 8
 
 // reproject using ESRI Well-Known Text
 reprojectGeoJSON(geojson, { to: 'PROJCS["WGS_1984_Web_Mercator_Auxiliary_Sphere",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984", ...' });
+```
 
 # references
 - https://geojson.org/
