@@ -57,7 +57,7 @@ If you want the convenience of reproject-geojson without the overhead of the
 [proj4-fully-loaded](https://github.com/danieljdufour/proj4-fully-loaded) dependency,
 you can use the pluggable version of reprojectGeoJSON:
 ```js
-const reprojectGeoJSONPlugable = require("reproject-geojson/pluggable.js");
+import reprojectGeoJSONPlugable from "reproject-geojson/pluggable.js";
 
 const proj4 = require("proj4");
 
