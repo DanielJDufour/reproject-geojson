@@ -1,6 +1,9 @@
 const fs = require("fs");
 const test = require("flug");
+const proj4 = require("proj4-fully-loaded");
+
 const reprojectGeoJSON = require("./reproject-geojson.js");
+const reprojectGeoJSONPluggable = require("./pluggable.js");
 
 const original = JSON.parse(fs.readFileSync("./data/sri-lanka.geojson", "utf-8"));
 
@@ -30,6 +33,10 @@ test("reproject Sri Lanka", ({ eq }) => {
     [9041148.590358196, 691211.6576356536],
     [8944338.183765557, 665600.7134755934]
   ]);
+});
+
+test("reproject using pluggable with epsg code", ({ eq }) => {
+  eq(reprojectGeoJSONPluggable(dinagat, { reproject: proj4("EPSG:4326", "EPSG:3857").forward }), dinagat_3857);
 });
 
 test("reproject using epsg code", ({ eq }) => {

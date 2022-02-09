@@ -52,6 +52,19 @@ reprojectGeoJSON(geojson, { to: 'PROJCS["WGS 84 / Pseudo-Mercator",GEOGCS["WGS 8
 reprojectGeoJSON(geojson, { to: 'PROJCS["WGS_1984_Web_Mercator_Auxiliary_Sphere",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984", ...' });
 ```
 
+# advanced usage
+If you want the convenience of reproject-geojson without the overhead of the 
+[proj4-fully-loaded](https://github.com/danieljdufour/proj4-fully-loaded) dependency,
+you can use the pluggable version of reprojectGeoJSON:
+```js
+const reprojectGeoJSONPlugable = require("reproject-geojson/pluggable.js");
+
+const proj4 = require("proj4");
+
+const reproject = proj4("EPSG:3857", "EPSG:4326").forward;
+reprojectGeoJSONPlugable(geojson, { reproject });
+```
+
 # references
 - https://geojson.org/
 - https://datatracker.ietf.org/doc/html/rfc7946
