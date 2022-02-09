@@ -1,6 +1,6 @@
 {
   "name": "reproject-geojson",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Reproject GeoJSON. Works Offline.",
   "main": "reproject-geojson.js",
   "unpkg": "reproject-geojson.min.js",
