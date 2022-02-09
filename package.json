@@ -7,7 +7,8 @@
   "jsdelivr": "reproject-geojson.min.js",
   "files": [
     "reproject-geojson.js",
-    "reproject-geojson.min.js"
+    "reproject-geojson.min.js",
+    "pluggable.js"
   ],
   "scripts": {
     "build": "npx browserify ./reproject-geojson.js > reproject-geojson.min.js",
