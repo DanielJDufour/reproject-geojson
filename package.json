@@ -14,7 +14,9 @@
     "build": "npx browserify ./reproject-geojson.js > reproject-geojson.min.js",
     "format": "npx prettier --arrow-parens=avoid --print-width=180 --trailing-comma=none --write reproject-geojson.js test.js",
     "start": "npx http-server",
-    "test": "node test.js"
+    "test:dev": "node test.js",
+    "test:prod": "node -e \"require('./reproject-geojson.min.js')\"",
+    "test": "npm run test:dev && npm run test:prod"
   },
   "repository": {
     "type": "git",
