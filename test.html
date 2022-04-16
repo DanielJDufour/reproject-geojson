@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/flug"></script>
+    <script src="./reproject-geojson.min.js"></script>
+    <script>
+      (async function() {
+        const res = await fetch("./data/sri-lanka.geojson");
+        const data = await res.json();
+        const result = reprojectGeoJSON(data, {
+          from: undefined,
+          to: "3857"
+        });
+
+        function checkCoords (geojson) {
+          const geoms = geojson.features?.map(feat => feat.geometry.coordinates) || [geojson.geometry.coordinates];
+          const nums = geoms.flat(100);
+        }
+
+        test("check numbers", ({ eq }) => {
+          checkCoords(result);
+        });
+      })();
+    </script>
+  </head>
+</html>

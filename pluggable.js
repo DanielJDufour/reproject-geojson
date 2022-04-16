@@ -11,19 +11,19 @@ function reprojectGeoJSONPluggable(data, { in_place = false, reproject }) {
   } else if (data.type === "Feature") {
     data.geometry = reprojectGeoJSONPluggable(data.geometry, { in_place, reproject });
   } else if (data.type === "LineString") {
-    data.coordinates = data.coordinates.map(reproject);
+    data.coordinates = data.coordinates.map(coord => reproject(coord));
   } else if (data.type === "MultiLineString") {
-    data.coordinates = data.coordinates.map(line => line.map(reproject));
+    data.coordinates = data.coordinates.map(line => line.map(coord => reproject(coord)));
   } else if (data.type === "MultiPoint") {
-    data.coordinates = data.coordinates.map(reproject);
+    data.coordinates = data.coordinates.map(point => reproject(point));
   } else if (data.type === "MultiPolygon") {
     data.coordinates = data.coordinates.map(polygon => {
-      return polygon.map(ring => ring.map(reproject));
+      return polygon.map(ring => ring.map(coord => reproject(coord)));
     });
   } else if (data.type === "Point") {
     data.coordinates = reproject(data.coordinates);
   } else if (data.type === "Polygon") {
-    data.coordinates = data.coordinates.map(ring => ring.map(reproject));
+    data.coordinates = data.coordinates.map(ring => ring.map(coord => reproject(coord)));
   }
   return data;
 }

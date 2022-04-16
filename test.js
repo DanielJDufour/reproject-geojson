@@ -35,6 +35,23 @@ test("reproject Sri Lanka", ({ eq }) => {
   ]);
 });
 
+test("reproject Sri Lanka (pluggable)", ({ eq }) => {
+  const reprojected = reprojectGeoJSONPluggable(original, {
+    in_place: false,
+    reproject: proj4("EPSG:4326", "EPSG:3857").forward
+  });
+  eq(original.features.length, reprojected.features.length);
+  eq(original.features[0].properties, reprojected.features[0].properties);
+  eq(original.features[0].geometry.type, reprojected.features[0].geometry.type);
+  eq(original.features[0].geometry.coordinates.length, reprojected.features[0].geometry.coordinates.length);
+  eq(reprojected.features[0].geometry.coordinates[0].slice(0, 4), [
+    [9104593.951004118, 839879.4542797726],
+    [9087825.139118828, 723091.922578529],
+    [9041148.590358196, 691211.6576356536],
+    [8944338.183765557, 665600.7134755934]
+  ]);
+});
+
 test("reproject using pluggable with epsg code", ({ eq }) => {
   eq(reprojectGeoJSONPluggable(dinagat, { reproject: proj4("EPSG:4326", "EPSG:3857").forward }), dinagat_3857);
 });
