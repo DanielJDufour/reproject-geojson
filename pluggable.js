@@ -1,7 +1,5 @@
 const getDepth = require("get-depth");
 
-const clone = data => JSON.parse(JSON.stringify(data));
-
 function reprojectGeoJSONPluggable(data, { reproject }) {
   if (typeof reproject !== "function") {
     throw new Error(`[reproject-geojson] you must specify a reproject function`);
