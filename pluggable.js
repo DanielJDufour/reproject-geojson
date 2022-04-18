@@ -1,29 +1,71 @@
+const getDepth = require("get-depth");
+
 const clone = data => JSON.parse(JSON.stringify(data));
 
-function reprojectGeoJSONPluggable(data, { in_place = false, reproject }) {
+function reprojectGeoJSONPluggable(data, { reproject }) {
   if (typeof reproject !== "function") {
     throw new Error(`[reproject-geojson] you must specify a reproject function`);
   }
-  if (in_place !== true) data = clone(data);
-
   if (data.type === "FeatureCollection") {
-    data.features = data.features.map(feature => reprojectGeoJSONPluggable(feature, { in_place, reproject }));
+    return {
+      ...data,
+      features: data.features.map(feature => reprojectGeoJSONPluggable(feature, { reproject }))
+    };
   } else if (data.type === "Feature") {
-    data.geometry = reprojectGeoJSONPluggable(data.geometry, { in_place, reproject });
+    return {
+      ...data,
+      geometry: reprojectGeoJSONPluggable(data.geometry, { reproject })
+    };
   } else if (data.type === "LineString") {
-    data.coordinates = data.coordinates.map(coord => reproject(coord));
+    return {
+      ...data,
+      coordinates: data.coordinates.map(coord => reproject(coord))
+    };
   } else if (data.type === "MultiLineString") {
-    data.coordinates = data.coordinates.map(line => line.map(coord => reproject(coord)));
+    return {
+      ...data,
+      coordinates: data.coordinates.map(line => line.map(coord => reproject(coord)))
+    };
   } else if (data.type === "MultiPoint") {
-    data.coordinates = data.coordinates.map(point => reproject(point));
+    return {
+      ...data,
+      coordinates: data.coordinates.map(point => reproject(point))
+    };
   } else if (data.type === "MultiPolygon") {
-    data.coordinates = data.coordinates.map(polygon => {
-      return polygon.map(ring => ring.map(coord => reproject(coord)));
-    });
+    return {
+      ...data,
+      coordinates: data.coordinates.map(polygon => {
+        return polygon.map(ring => ring.map(coord => reproject(coord)));
+      })
+    };
   } else if (data.type === "Point") {
-    data.coordinates = reproject(data.coordinates);
+    return {
+      ...data,
+      coordinates: reproject(data.coordinates)
+    };
   } else if (data.type === "Polygon") {
-    data.coordinates = data.coordinates.map(ring => ring.map(coord => reproject(coord)));
+    return {
+      ...data,
+      coordinates: data.coordinates.map(ring => ring.map(coord => reproject(coord)))
+    };
+  } else if (Array.isArray(data)) {
+    const depth = getDepth(data);
+
+    if (depth === 1) {
+      // coord
+      return reproject(data);
+    } else if (depth === 2) {
+      // ring
+      return data.map(coord => reproject(coord));
+    } else if (depth === 3) {
+      // polygon
+      return data.map(ring => ring.map(coord => reproject(coord)));
+    } else if (depth === 4) {
+      // multi-polygon
+      return data.map(polygon => {
+        return polygon.map(ring => ring.map(coord => reproject(coord)));
+      });
+    }
   }
   return data;
 }

@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "npx browserify ./reproject-geojson.js > reproject-geojson.min.js",
-    "format": "npx prettier --arrow-parens=avoid --print-width=180 --trailing-comma=none --write reproject-geojson.js test.js",
+    "format": "npx prettier --arrow-parens=avoid --print-width=180 --trailing-comma=none --write pluggable.js reproject-geojson.js test.js",
     "start": "npx http-server",
     "test:dev": "node test.js",
     "test:prod": "node -e \"require('./reproject-geojson.min.js')\"",
@@ -41,6 +41,7 @@
     "flug": "^2.2.0"
   },
   "dependencies": {
+    "get-depth": "^0.0.3",
     "proj4-fully-loaded": "^0.0.4"
   }
 }
