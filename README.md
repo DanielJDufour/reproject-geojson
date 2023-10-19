@@ -9,12 +9,12 @@ because the GeoJSON standard only accepts 1 projection (Latitude/Longitude on a 
 - Pure JavaScript
 - Cross-Platform (NodeJS or Browser)
 
-# install
+## install
 ```bash
 npm install reproject-geojson
 ```
 
-# usage
+## usage
 ```js
 import reprojectGeoJSON from "reproject-geojson";
 
@@ -52,7 +52,8 @@ reprojectGeoJSON(geojson, { to: 'PROJCS["WGS 84 / Pseudo-Mercator",GEOGCS["WGS 8
 reprojectGeoJSON(geojson, { to: 'PROJCS["WGS_1984_Web_Mercator_Auxiliary_Sphere",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984", ...' });
 ```
 
-# advanced usage
+## advanced usage
+### Light Pluggable Version
 If you want the convenience of reproject-geojson without the overhead of the 
 [proj4-fully-loaded](https://github.com/danieljdufour/proj4-fully-loaded) dependency,
 you can use the pluggable version of reprojectGeoJSON:
@@ -63,6 +64,15 @@ const proj4 = require("proj4");
 
 const reproject = proj4("EPSG:3857", "EPSG:4326").forward;
 reprojectGeoJSONPlugable(geojson, { reproject });
+```
+### Point Densification
+If you want to densify your line segments or polygon edges before reprojection,
+pass in "densify" and this'll be passed to [reproject-line](https://github.com/danieljdufour/reproject-line).
+```js
+// add up to 10 points to each line segment as needed
+reprojectGeoJSON(geojson, { to: 32610, densify: 10 });
+
+reprojectGeoJSONPlugable(geojson, { reproject, densify: 10 });
 ```
 
 # references

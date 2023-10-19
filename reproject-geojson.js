@@ -1,11 +1,11 @@
 const proj4 = require("proj4-fully-loaded");
 const reprojectGeoJSONPluggable = require("./pluggable.js");
 
-function reprojectGeoJSON(data, { from: _from = "EPSG:4326", in_place = false, to: _to = "EPSG:4326" }) {
+function reprojectGeoJSON(data, { densify, from: _from = "EPSG:4326", to: _to = "EPSG:4326" }) {
   if (typeof _from === "number" || _from.match(/^\d+$/)) _from = "EPSG:" + _from;
   if (typeof _to === "number" || _to.match(/^\d+$/)) _to = "EPSG:" + _to;
   return reprojectGeoJSONPluggable(data, {
-    in_place,
+    densify,
     reproject: proj4(_from, _to).forward
   });
 }
