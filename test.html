@@ -11,6 +11,14 @@
           from: undefined,
           to: "3857"
         });
+        console.log("result:", result);
+
+        const result10 = reprojectGeoJSON(data, {
+          densify: 10,
+          from: undefined,
+          to: "3857"
+        });
+        console.log("result10:", result10);
 
         function checkCoords (geojson) {
           const geoms = geojson.features?.map(feat => feat.geometry.coordinates) || [geojson.geometry.coordinates];
@@ -19,7 +27,11 @@
 
         test("check numbers", ({ eq }) => {
           checkCoords(result);
+          eq(result.features[0].geometry.coordinates[0].length, 10);
+          eq(result10.features[0].geometry.coordinates[0].length, 10 * 10);
         });
+
+
       })();
     </script>
   </head>
