@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/DanielJDufour/reproject-geojson#readme",
   "devDependencies": {
-    "flug": "^2.2.0"
+    "flug": "^2.6.0"
   },
   "dependencies": {
     "get-depth": "^0.0.3",
